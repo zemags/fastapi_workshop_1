@@ -9,3 +9,8 @@ def create_new_art(art: ArtCreate, db: Session, owner_id: int):
     db.commit()
     db.refresh(art)
     return art
+
+
+def retreive_art(id: int, db: Session):
+    art = db.query(Art).filter(Art.id == id).first()
+    return art
