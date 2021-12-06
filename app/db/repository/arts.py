@@ -19,3 +19,12 @@ def retreive_art(id: int, db: Session):
 def list_arts(db: Session):
     arts = db.query(Art).all()
     return arts
+
+
+def update_art_by_id(id: int, art: ArtCreate, db: Session):
+    existing_art = db.query(Art).filter(Art.id == id)
+    if not existing_art.first():
+        return 0
+    existing_art.update(art.__dict__)
+    db.commit()
+    return 1

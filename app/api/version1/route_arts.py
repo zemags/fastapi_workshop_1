@@ -1,8 +1,7 @@
 from typing import List
 
-from db.repository.arts import create_new_art
-from db.repository.arts import list_arts
-from db.repository.arts import retreive_art
+from db.repository.arts import create_new_art, list_arts, retreive_art, \
+    update_art_by_id
 from db.session import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from schemas.arts import ArtCreate, ShowArt
@@ -34,3 +33,14 @@ def retreive_art_by_id(id: int, db: Session = Depends(get_db)):
 def retreive_all_arts(db: Session = Depends(get_db)):
     arts = list_arts(db=db)
     return arts
+
+
+@router.put("/update/{id}")
+def update_art(id: int, art: ArtCreate, db: Session = Depends(get_db)):
+    owner_id = 1
+    art_retrieved = retreive_art(id=id, db=db)
+    if not art_retrieved:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Art with {id} doesn't exist")
+    update_art_by_id(id=id, art=art, db=db)
+    return {"detail": "Successfully updated art"}
