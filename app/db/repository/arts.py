@@ -28,3 +28,12 @@ def update_art_by_id(id: int, art: ArtCreate, db: Session):
     existing_art.update(art.__dict__)
     db.commit()
     return 1
+
+
+def delete_art_by_id(id: int, db: Session):
+    existing_art = db.query(Art).filter(Art.id == id)
+    if not existing_art.first():
+        return 0
+    existing_art.delete(synchronize_session=False)
+    db.commit()
+    return 1
