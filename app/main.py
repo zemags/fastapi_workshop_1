@@ -22,8 +22,3 @@ def start_app():
 
 
 app = start_app()
-
-
-@app.get("/")
-def index():
-    return {"detail": "hello index"}
