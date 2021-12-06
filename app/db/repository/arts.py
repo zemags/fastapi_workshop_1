@@ -14,3 +14,8 @@ def create_new_art(art: ArtCreate, db: Session, owner_id: int):
 def retreive_art(id: int, db: Session):
     art = db.query(Art).filter(Art.id == id).first()
     return art
+
+
+def list_arts(db: Session):
+    arts = db.query(Art).all()
+    return arts
